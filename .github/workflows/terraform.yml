@@ -1,0 +1,53 @@
+name: 'teraform'
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    env:
+      #AWS SECRETS
+      AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_KEY}}
+    runs-on: ubuntu-latest
+    environment: production
+
+   
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Terraform Init
+      uses: hashicorp/terraform-github-action@master
+      with:
+        tf_actions_version: 0.14.3
+        tf_actions_subcommand: 'init'
+        tf-actions_working_dir: '.'
+        tf_actions_comment: true
+    
+
+
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      uses: hashicorp/terraform-github-action@master
+      with:
+        tf_actions_version: 0.14.3
+        tf_actions_subcommand: 'paln'
+        tf-actions_working_dir: '.'
+        tf_actions_comment: true
+     
+
+      # On push to "master", build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+    - name: Terraform apply
+      uses: hashicorp/terraform-github-action@master
+      with:
+        tf_actions_version: 0.14.3
+        tf_actions_subcommand: 'apply'
+        tf-actions_working_dir: '.'
+        tf_actions_comment: true
