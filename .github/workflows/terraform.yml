@@ -2,11 +2,11 @@ name: 'terraform'
 
 on:
   workflow_dispatch:
-    input:
+    inputs:
       terraform_action:
         type: choice
         descriptiom: select action
-        option:
+        options:
         - apply
         - destroy
         required: true
