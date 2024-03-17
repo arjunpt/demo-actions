@@ -1,6 +1,15 @@
 name: 'terraform'
 
 on:
+  workflow_dispatch:
+    input:
+      terraform_action:
+        type: choice
+        descriptiom: select action
+        option:
+        - apply
+        - destroy
+        required: true
   push:
     branches: ["master"]
 
@@ -39,9 +48,19 @@ jobs:
     # On push to "master", build or change infrastructure according to Terraform configuration files
     # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
+      if: ${{ github.event.inputs.terraform_action == 'apply' }}
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: 0.14.3
-        tf_actions_subcommand: 'apply'
+        tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
+        tf_actions_working_dir: '.'
+        tf_actions_comment: true
+
+    - name: Terraform Destroy
+      if: ${{ github.event.inputs.terraform_action == 'destroy' }}
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.14.3
+        tf_actions_subcommand: ${{ github.event.inputs.terraform_action }}
         tf_actions_working_dir: '.'
         tf_actions_comment: true
