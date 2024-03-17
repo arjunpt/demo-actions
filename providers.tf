@@ -20,4 +20,4 @@ terraform {
         dynamodb_table = "dynamodb-state-locking" #dynamodb table creation
     }
 }
-#provider block
+#provider blocks
