@@ -6,5 +6,5 @@ resource "aws_instance" "ec2_examples" {
       Name = "stg"
     }
 }
-#test
+#testS
 
