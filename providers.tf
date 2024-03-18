@@ -1,7 +1,5 @@
 provider "aws" {
   region = "us-east-1"
-  access_key = "AKIAXYKJW5II5RCGBKQC"
-  secret_key = "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"
 }
 
 terraform {
@@ -20,4 +18,4 @@ terraform {
         dynamodb_table = "dynamodb-state-locking" #dynamodb table creation
     }
 }
-#provider blocksS
+#provider blocksSs
